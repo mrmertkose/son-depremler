@@ -27,12 +27,8 @@ echo $data->getAll();
   - ?lastday=2 (kaç gün içerisindeki depremler getirilsin - default=1)
 ```
 
-# API Endpoints Örnek
-```
-  - https://www.mertkose.net/api/son-depremler/
-  - https://www.mertkose.net/api/son-depremler/?ml=5
-  - https://www.mertkose.net/api/son-depremler/?lastday=30
-  - https://www.mertkose.net/api/son-depremler/?ml=5&lastday=30
-```
-
-<a href="https://www.mertkose.net/api/son-depremler/">https://www.mertkose.net/api/son-depremler/</a>
+### API Endpoints Örnek
+ - <a href="https://www.mertkose.net/api/son-depremler/" target="_blank">https://www.mertkose.net/api/son-depremler/</a>
+ - <a href="https://www.mertkose.net/api/son-depremler/?ml=5" target="_blank">https://www.mertkose.net/api/son-depremler/?ml=5</a>
+ - <a href="https://www.mertkose.net/api/son-depremler/?lastday=30" target="_blank">https://www.mertkose.net/api/son-depremler/?lastday=30</a>
+ - <a href="https://www.mertkose.net/api/son-depremler/?ml=5&lastday=30" target="_blank">https://www.mertkose.net/api/son-depremler/?ml=5&lastday=30</a>
