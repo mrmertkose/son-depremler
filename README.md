@@ -33,6 +33,4 @@ echo $data->getAll();
   - https://www.mertkose.net/api/son-depremler/?ml=5
   - https://www.mertkose.net/api/son-depremler/?lastday=30
   - https://www.mertkose.net/api/son-depremler/?ml=5&lastday=30
-  - [https://www.mertkose.net/api/son-depremler/](https://www.mertkose.net/api/son-depremler/)
-  [I'm an inline-style link](https://www.mertkose.net/api/son-depremler)
 ```
