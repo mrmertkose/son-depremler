@@ -16,16 +16,12 @@ echo $data->getAll();
 ```
 
 # Response
-```
   - JSON
-```
   
 
 # API Endpoints
-```
   - ?ml=1 (depremin büyüklük değeri için girilecek değer - default=0)
   - ?lastday=2 (kaç gün içerisindeki depremler getirilsin - default=1)
-```
 
 # API Endpoints Örnek
  - <a href="https://www.mertkose.net/api/son-depremler/" target="_blank">https://www.mertkose.net/api/son-depremler/</a>
