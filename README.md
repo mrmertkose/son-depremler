@@ -3,7 +3,7 @@ Verilerin kaynağı afad.gov.tr olup, unofficial bir şekilde geliştirilmiştir
 
 # Kurulum
 ```
-composer require mertkose/son-depremler 
+composer require mrmertkose/son-depremler
 ```
 
 # Hızlı Başlangıç
