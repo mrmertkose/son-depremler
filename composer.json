@@ -1,0 +1,19 @@
+{
+    "name": "mrmertkose/son-depremler",
+    "description": "Verilerin kayna\u0000\u0000 afad.gov.tr olup, unofficial bir \u0000ekilde geli\u0000tirilmi\u0000tir.Ticari kullan\u0000mlar\u0000n\u0000z i\u0000in l\u0000tfen deprem@afad.gov.tr ileti\u0000ime ge\u0000iniz.",
+    "require": {
+        "php-curl-class/php-curl-class": "^8.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Earthquakes\\": "src"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mert Köse",
+            "email": "info@mertkose.net"
+        }
+    ]
+}
