@@ -4,6 +4,11 @@
     "require": {
         "guzzlehttp/guzzle": "7.0"
     },
+    "config": {
+        "platform": {
+            "php": "7.2.5"
+        }
+    },
     "autoload": {
         "psr-4": {
             "Earthquakes\\": "src"
