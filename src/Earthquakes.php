@@ -1,57 +1,77 @@
 <?php
 
-
 namespace Earthquakes;
 
-use Curl\Curl;
+use GuzzleHttp\Client;
 
 
 class Earthquakes
 {
-    const UTC = 0;
+    private $baseUrl = "https://deprem.afad.gov.tr/EventData/GetEventsByFilter";
     private $ml = 0;
     private $lastDay = 1;
-    private $baseUrl = "https://deprem.afad.gov.tr/latestCatalogsList";
-    private $curl;
+    private $response;
+    private $error = [];
+    private $localZone = "Europe/Istanbul";
+    private $dateFormatUrl = "Y-m-d\TH:i:s.000\Z";
+    private $dateFormatData = "Y-m-d\TH:i:s";
+    private $dateFormat;
+
 
     public function __construct()
     {
-        // Get ile gelen query varsa, methodu çağırıp query parçalamalarını yapıyoruz.
-        // Get ile gelen query yoksa, $ml ve $lastDay değerleri default olarak devam ediyor.
-        $this->urlParser();
+        $this->dateFormat = new \DateTime($this->localZone);
+        $client = new Client();
 
+        try {
+            $this->urlParser();
 
-        // Yeni curl isteği başlatıp query'leri post olarak yolluyoruz.
-        // Dönen değeri alıp diğer methoda taşımak için sınıf içerisindeki değişkene tanımlıyoruz($this->curl)
-        $this->curl = new Curl();
-        $this->curl->post($this->baseUrl, array(
-            "m" => $this->ml,
-            "utc" => self::UTC,
-            "lastDay" => $this->lastDay,
-        ));
+            $nowDate = $this->dateFormat->format($this->dateFormatUrl);
 
+            $this->response = $client->post($this->baseUrl, [
+                "json" => [
+                    "EventSearchFilterList" => [
+                        ["FilterType" => 9, "Value" => $nowDate],
+                        ["FilterType" => 8, "Value" => $this->lastDate("30", $nowDate, $this->dateFormatUrl)],
+                    ],
+                    "Skip" => 0,
+                    "SortDescriptor" => [
+                        "dir" => "desc",
+                        "field" => "eaeventId"
+                    ],
+                    "Take" => rand(9000, 10000)
+                ]
+            ]);
+        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
+            $this->error = [$e->getResponse()->getBody()->getContents()];
+        }
     }
 
     public function getAll()
     {
         header('Content-type: application/json');
 
-        // Dönen değerimizde hata varsa ya da yoksa if ile yakalayıp "data"
-        // değişkenine eşleyip return ediyoruz
-        if ($this->curl->error) {
-            $data = [
+        if ($this->error) {
+            return json_encode([
                 "status" => 410,
-                "error_message" => $this->curl->errorMessage,
+                "error_message" => $this->error,
                 "data" => []
-            ];
-
-        } else {
-            $data = [
-                "status" => 200,
-                "data" => $this->curl->getResponse()
-            ];
+            ]);
         }
-        return json_encode($data);
+
+        $returnData = [];
+        foreach (json_decode($this->response->getBody()->getContents())->eventList as $item) {
+            $nowDate = $this->dateFormat->format($this->dateFormatData);
+            if ($item->magnitude > $this->ml && $item->eventDate > $this->lastDate($this->lastDay, $nowDate, $this->dateFormatData))
+            {
+                $returnData[] = $item;
+            }
+        }
+
+        return json_encode([
+            "status" => 200,
+            "data" => $returnData
+        ]);
     }
 
     private function urlParser()
@@ -64,6 +84,11 @@ class Earthquakes
                 $this->lastDay = $_GET["lastday"];
             }
         }
+    }
+
+    private function lastDate($day, $nowDate, $dateFormat)
+    {
+        return date($dateFormat, strtotime('-' . $day . ' day', strtotime($nowDate)));
     }
 
 }
